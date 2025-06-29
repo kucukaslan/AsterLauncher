@@ -8,6 +8,7 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
@@ -190,10 +191,19 @@ class HomeFragment() : Fragment(), OnItemClickedListener.OnAppsClickedListener,
             //updateViewVisibility(binding.word, showDailyWord)
             //utils.updateUI(binding.word, preferenceHelper.homeDailyWordAlignment, preferenceHelper.dailyWordColor, preferenceHelper.showDailyWord)
         }
-        binding.clock.format12Hour = "hh:mm"
-        binding.clock.format24Hour = "hh:mm"
-        binding.date.format12Hour = "EEE  dd MM"
-        binding.date.format24Hour = "EEE  dd MM"
+        // Set clock format based on system setting
+        val is24Hour = DateFormat.is24HourFormat(context)
+        if (is24Hour) {
+            binding.clock.format24Hour = "HH:mm"
+            binding.clock.format12Hour = null
+            binding.date.format24Hour = "EEE  dd MM"
+            binding.date.format12Hour = null
+        } else {
+            binding.clock.format12Hour = "hh:mm"
+            binding.clock.format24Hour = null
+            binding.date.format12Hour = "EEE  dd MM"
+            binding.date.format24Hour = null
+        }
     }
 
     private fun observeBioAuthCheck(appInfo: AppInfo) {
