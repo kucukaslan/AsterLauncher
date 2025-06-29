@@ -8,7 +8,6 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
 import android.os.Bundle
-import android.text.format.DateFormat
 import android.util.Log
 import android.view.*
 import androidx.annotation.RequiresApi
@@ -191,7 +190,6 @@ class HomeFragment() : Fragment(), OnItemClickedListener.OnAppsClickedListener,
             //updateViewVisibility(binding.word, showDailyWord)
             //utils.updateUI(binding.word, preferenceHelper.homeDailyWordAlignment, preferenceHelper.dailyWordColor, preferenceHelper.showDailyWord)
         }
-        // Set clock format based on system setting
         binding.clock.format12Hour = "hh:mm"
         binding.clock.format24Hour = "HH:mm"
         binding.date.format12Hour = "EEE  dd MM"
