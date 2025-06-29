@@ -195,7 +195,8 @@ class HomeFragment() : Fragment(), OnItemClickedListener.OnAppsClickedListener,
         binding.clock.format12Hour = "hh:mm"
         binding.clock.format24Hour = "HH:mm"
         binding.date.format12Hour = "EEE  dd MM"
-        binding.date.format24Hour = "EEE  dd MM"
+        // 29 October, Sunday
+        binding.date.format24Hour = "dd MMMM, cccc"
     }
 
     private fun observeBioAuthCheck(appInfo: AppInfo) {
