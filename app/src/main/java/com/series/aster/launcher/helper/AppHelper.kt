@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
@@ -29,6 +30,7 @@ import com.series.aster.launcher.R
 import com.series.aster.launcher.accessibility.MyAccessibilityService
 import com.series.aster.launcher.data.entities.AppInfo
 import com.series.aster.launcher.ui.activities.LauncherActivity
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -260,5 +262,22 @@ class AppHelper @Inject constructor() {
         }
             .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
             .show()
+    }
+
+    /**
+     * Returns the app label in the current system locale, or English if not available.
+     */
+    fun getAppLabel(context: Context, applicationInfo: ApplicationInfo): String {
+        val pm = context.packageManager
+        val config = Configuration(context.resources.configuration)
+        // Use system locale
+        config.setLocale(Locale.getDefault())
+        val localizedContext = context.createConfigurationContext(config)
+        val label = applicationInfo.loadLabel(localizedContext.packageManager).toString()
+        // Fallback: If label is empty, try English
+        if (label.isNotEmpty()) return label
+        config.setLocale(Locale.ENGLISH)
+        val enContext = context.createConfigurationContext(config)
+        return applicationInfo.loadLabel(enContext.packageManager).toString()
     }
 }

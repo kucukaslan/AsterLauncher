@@ -8,6 +8,7 @@ import android.util.Log
 import com.series.aster.launcher.Constants
 import com.series.aster.launcher.data.dao.AppInfoDAO
 import com.series.aster.launcher.data.entities.AppInfo
+import com.series.aster.launcher.helper.AppHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -22,6 +23,9 @@ class AppInfoRepository @Inject constructor(
 
     @Inject
     lateinit var packageManager: PackageManager
+
+    @Inject
+    lateinit var appHelper: AppHelper
 
     fun getDrawApps(): Flow<List<AppInfo>> {
         return appDao.getDrawAppsFlow()
@@ -122,7 +126,7 @@ class AppInfoRepository @Inject constructor(
                             val packageName = app.applicationInfo.packageName
                             if (packageName !in existingPackageNames && packageName != excludedPackageName) {
                                 AppInfo(
-                                    appName = app.label.toString(),
+                                    appName = appHelper.getAppLabel(context, app.applicationInfo),
                                     packageName = packageName,
                                     favorite = false,
                                     hidden = false,

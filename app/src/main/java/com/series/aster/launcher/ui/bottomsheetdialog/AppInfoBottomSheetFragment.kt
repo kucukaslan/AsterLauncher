@@ -22,6 +22,7 @@ import com.series.aster.launcher.listener.OnItemClickedListener
 import com.series.aster.launcher.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import android.content.pm.ApplicationInfo
 
 @AndroidEntryPoint
 class AppInfoBottomSheetFragment(private val appInfo: AppInfo) : BottomSheetDialogFragment(),
@@ -87,7 +88,7 @@ class AppInfoBottomSheetFragment(private val appInfo: AppInfo) : BottomSheetDial
     private fun observeClickListener() {
         val packageManager = context?.packageManager
         val applicationInfo = packageManager?.getApplicationInfo(appInfo.packageName, 0)
-        val appName = applicationInfo?.let { packageManager?.getApplicationLabel(it).toString() }
+        val appName = applicationInfo?.let { appHelper.getAppLabel(requireContext(), it) }
 
         binding.bottomSheetFavHidden.setOnClickListener {
             appStateClickListener?.onAppStateClicked(appInfo)
